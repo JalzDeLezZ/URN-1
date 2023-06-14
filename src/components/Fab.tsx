@@ -1,6 +1,7 @@
 import React, {useState} from 'react';
 import {
   Text,
+  Platform,
   TouchableOpacity,
   View,
   StyleSheet,
@@ -14,24 +15,42 @@ interface Props {
 }
 
 const Fab = ({title, onPress, position = 'r'}: Props) => {
-  return (
-    <View
-      style={[
-        styles.fabLocation,
-        position === 'r' ? styles.right : styles.left,
-      ]}>
-      {/* TouchableOpacity */}
-      <TouchableNativeFeedback
+  const android = () => {
+    return (
+      <View
+        style={[
+          styles.fabLocation,
+          position === 'r' ? styles.right : styles.left,
+        ]}>
+        <TouchableNativeFeedback
+          onPress={onPress}
+          background={TouchableNativeFeedback.Ripple('#28425B', false, 30)}>
+          <View style={styles.btnOpacity}>
+            <Text style={styles.fabText}>{title}</Text>
+          </View>
+        </TouchableNativeFeedback>
+      </View>
+    );
+  };
+
+  const ios = () => {
+    return (
+      <TouchableOpacity
         onPress={onPress}
-        background={TouchableNativeFeedback.Ripple('#28425B', false, 30)}
-        // style={position === 'r' ? styles.fabLocationR : styles.fabLocationL}
-      >
+        activeOpacity={0.75}
+        style={[
+          styles.fabLocation,
+          position === 'r' ? styles.right : styles.left,
+          // style={position === 'r' ? styles.fabLocationR : styles.fabLocationL}
+        ]}>
         <View style={styles.btnOpacity}>
           <Text style={styles.fabText}>{title}</Text>
         </View>
-      </TouchableNativeFeedback>
-    </View>
-  );
+      </TouchableOpacity>
+    );
+  };
+
+  return Platform.OS === 'ios' ? ios() : android();
 };
 
 export default Fab;

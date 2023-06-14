@@ -1,5 +1,5 @@
 import React, {useState} from 'react';
-import {StyleSheet, View, Text, Button, TouchableOpacity} from 'react-native';
+import {StyleSheet, View, Text, Button} from 'react-native';
 import Fab from '../components/Fab';
 
 export const CounterScreen = () => {
